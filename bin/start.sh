@@ -22,14 +22,13 @@ LOG_FILE=/tmp/adrizer-out.log
 API_PID_FILE=/tmp/adrizer-api.pid
 FRONTEND_PID_FILE=/tmp/adrizer-frontend.pid
 
+rm "$LOG_FILE"
 touch "$LOG_FILE"
 
-
-
-npm --prefix ./api start > "$LOG_FILE" 2>&1 &
+npm --prefix ./api start >> "$LOG_FILE" 2>&1 &
 API_PID=$!
 echo "$API_PID" > "$API_PID_FILE"
-npm --prefix ./frontend start > "$LOG_FILE" 2>&1 &
+npm --prefix ./frontend start >> "$LOG_FILE" 2>&1 &
 FRONTEND_PID=$!
 echo "$FRONTEND_PID" > "$FRONTEND_PID_FILE"
 tail -f "$LOG_FILE"
