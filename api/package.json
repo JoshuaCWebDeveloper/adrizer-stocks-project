@@ -34,7 +34,8 @@
     "rebuild": "npm run clean && npm run build",
     "prestart": "npm run rebuild",
     "start": "node -r source-map-support/register .",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "debug": "node --inspect --inspect-brk -r source-map-support/register ."
   },
   "repository": {
     "type": "git",
@@ -57,6 +58,8 @@
     "@loopback/service-proxy": "^3.0.7",
     "eslint": "^5.16.0",
     "loopback-connector-rest": "^3.7.0",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
