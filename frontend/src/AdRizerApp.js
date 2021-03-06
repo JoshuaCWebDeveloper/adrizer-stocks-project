@@ -32,8 +32,12 @@ const getSymbolList = async function (searchString) {
 
 const getTimeSeries = async function (startString, endString, symbol) {
     const s = encodeURIComponent(symbol),
-        start = encodeURIComponent(moment(startString).toISOString()),
-        end = encodeURIComponent(moment(endString).toISOString()),
+        parsedStart = moment(startString),
+        parsedEnd = moment(endString),
+        shiftedStart = moment(parsedStart).utc().add(parsedStart.utcOffset(), 'm'),
+        shiftedEnd = moment(parsedEnd).utc().add(parsedEnd.utcOffset(), 'm'),
+        start = encodeURIComponent(shiftedStart.toISOString()),
+        end = encodeURIComponent(shiftedEnd.toISOString()),
         url = `${window.ADRIZER_CONFIG.get("API_ROOT")}/stocks/timeSeries?symbol=${s}&start=${start}&end=${end}`;
     const response = await fetch(url);
     return response.json();
