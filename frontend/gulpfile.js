@@ -18,13 +18,26 @@ DevOps.init({
     appName: 'adrizer-stocks-project',
     babelExtOptions: {
         "ignore": [
-            "./src/styles"
+            "./src/styles",
+            "*.css"
         ],
         "plugins": [
             ["@babel/plugin-proposal-class-properties", { "loose": true }],
-            ["@babel/plugin-proposal-private-methods", { "loose": true }],
-            ["transform-import-css", {"generateScopedName": "[local]"}]
+            ["@babel/plugin-proposal-private-methods", { "loose": true }]
+            //["transform-import-css", {"generateScopedName": "[local]"}]
         ]
+    },
+    wpExtOptions: {
+        module: {
+            rules: [
+                undefined,
+                undefined,
+                {
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader"],
+                },
+            ],
+        }
     },
     wpSingleEntryPoint: "./src/app.js",
     gitCommitterName: 'DevTasks',
