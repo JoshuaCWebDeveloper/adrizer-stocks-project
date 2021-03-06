@@ -1,11 +1,26 @@
+import util from 'util';
+import fs from 'fs';
+import path from 'path';
 import {ApplicationConfig, AdrizerStocksProjectApplication} from './application';
+
+interface AdRizerConfig {
+  ALPHA_API_KEY: string;
+}
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
+  
+  const configFile = await util.promisify(fs.readFile)(
+    path.join(__dirname, "../config.json")
+  );
+  const configData = <AdRizerConfig>JSON.parse(configFile.toString());
+  
   const app = new AdrizerStocksProjectApplication(options);
   await app.boot();
   await app.start();
+  
+  Object.entries(configData).forEach(([k, v]) => app.bind(`config.${k}`).to(v));
 
   const url = app.restServer.url;
   console.log(`Server is running at ${url}`);
