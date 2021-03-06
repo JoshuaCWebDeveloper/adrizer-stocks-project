@@ -90,12 +90,6 @@ function AdRizerApp (props) {
         });
     }
     
-    if (loading) {
-        return (
-            <Loading />
-        );
-    }
-    
     return (
         <section id="stock-viewer">
             <h1>AdRizer Stocks Project</h1>
@@ -111,15 +105,21 @@ function AdRizerApp (props) {
                 
                 <Button appearance="primary" onClick={handleSubmit}>Submit</Button>
             </form>
-          
-            <AgGridReact rowData={data}>
-                <AgGridColumn headerName="Timestamp (UTC)" field="timestamp" />
-                <AgGridColumn headerName="Total Volume" field="totalVolume" />
-                <AgGridColumn headerName="Min. Price" field="low" />
-                <AgGridColumn headerName="Max. Price" field="high" />
-                <AgGridColumn headerName="Opening Price" field="open" />
-                <AgGridColumn headerName="Closing Price" field="close" />
-            </AgGridReact>
+            
+            {
+                loading ?
+                
+                    <Loading /> :
+
+                    <AgGridReact rowData={data}>
+                        <AgGridColumn headerName="Timestamp (UTC)" field="timestamp" />
+                        <AgGridColumn headerName="Total Volume" field="totalVolume" />
+                        <AgGridColumn headerName="Min. Price" field="low" />
+                        <AgGridColumn headerName="Max. Price" field="high" />
+                        <AgGridColumn headerName="Opening Price" field="open" />
+                        <AgGridColumn headerName="Closing Price" field="close" />
+                    </AgGridReact>
+            }
         </section>
     );
 };
