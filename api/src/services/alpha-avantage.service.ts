@@ -15,19 +15,23 @@ export class AlphaAvantage {
     // search alpha api for symbol
     const searchResult = await this.alphaAvantageClient.symbolSearch(searchString);
     // loop results, convert to Symbols
-    const matchingSymbols: Symbol[] = searchResult.bestMatches.map((matchedSymbol: AlphaSymbol) => {
-      return new Symbol({
-        symbol: matchedSymbol["1. symbol"],
-        name: matchedSymbol["2. name"],
-        type: matchedSymbol["3. type"],
-        region: matchedSymbol["4. region"],
-        marketOpen: matchedSymbol["5. marketOpen"],
-        marketClose: matchedSymbol["6. marketClose"],
-        timezone: matchedSymbol["7. timezone"],
-        currency: matchedSymbol["8. currency"],
-        matchScore: parseFloat(matchedSymbol["9. matchScore"])
+    const matchingSymbols: Symbol[] = searchResult.bestMatches
+      .filter((matchedSymbol: AlphaSymbol) => {
+        return matchedSymbol["4. region"] == "United States"
+      })
+      .map((matchedSymbol: AlphaSymbol) => {
+        return new Symbol({
+          symbol: matchedSymbol["1. symbol"],
+          name: matchedSymbol["2. name"],
+          type: matchedSymbol["3. type"],
+          region: matchedSymbol["4. region"],
+          marketOpen: matchedSymbol["5. marketOpen"],
+          marketClose: matchedSymbol["6. marketClose"],
+          timezone: matchedSymbol["7. timezone"],
+          currency: matchedSymbol["8. currency"],
+          matchScore: parseFloat(matchedSymbol["9. matchScore"])
+        });
       });
-    });
     // return list of matching symbols
     return matchingSymbols;
   }
