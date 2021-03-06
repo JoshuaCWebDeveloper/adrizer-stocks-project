@@ -11,6 +11,25 @@ html, body {
 }
 
 #stock-viewer {
-    width: 100%;
+    margin: auto;
+    width: 90%;
     height: 100%;
+}
+
+#stock-viewer h1 {
+    margin: 20px;
+    text-align: center;
+}
+
+#stock-viewer form {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    margin: 20px 0;
+}
+
+#stock-viewer form > * {
+    margin: 0 20px;
 }
