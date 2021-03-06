@@ -49,7 +49,8 @@ function AdRizerApp (props) {
         [loading, setLoading] = useState(false),
         [data, setData] = useState([]),
         dateRange = useRef([]),
-        symbol = useRef("");
+        symbol = useRef(""),
+        acTimeout = useRef(null);
     
     function handleDateRangeChange ([start, end]) {
         dateRange.current = [start, end];
@@ -58,10 +59,18 @@ function AdRizerApp (props) {
     function handleSymbolChange (value) {
         // update stored value
         symbol.current = value;
+        if (acTimeout.current) {
+            return;
+        }
         // update symbol list
-        getSymbolList(value).then(data => {
-            setSymbolList(data.map(it => it.symbol));
-        });
+        acTimeout.current = setTimeout(() => {
+            acTimeout.current = null;
+            getSymbolList(symbol.current).then(data => {
+                if (data && Array.isArray(data)) {
+                    setSymbolList(data.map(it => it.symbol));
+                }
+            });
+        }, 1000);
     }
   
     function handleSymbolSelect (item) {
@@ -75,7 +84,9 @@ function AdRizerApp (props) {
         // get data
         getTimeSeries(start, end, symbol.current).then(data => {
             setLoading(false);
-            setData(data);
+            if (data && Array.isArray(data)) {
+                setData(data);
+            }
         });
     }
     
