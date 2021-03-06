@@ -1,0 +1,16 @@
+{
+  "name": "adrizer-stocks-project",
+  "version": "0.0.1",
+  "description": "First coding test for AdRizer",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "start": "/bin/bash bin/start.sh",
+    "install": "npm --prefix ./frontend install && npm --prefix ./api install"
+  }
+}
