@@ -8,6 +8,10 @@ export type NoteResult = {
   "Note": string;
 }
 
+export type ErrorResult = {
+  "Error Message": string;
+}
+
 export interface Symbol {
   "1. symbol": string;
   "2. name": string;
@@ -68,6 +72,26 @@ export class AlphaAvantageClient extends HttpClient {
         // this is likely rate limiting
         // throw error
         throw new HttpErrors.TooManyRequests(note.Note);
+      }
+      // if this is an error
+      const error: ErrorResult = response.body;
+      if (typeof error["Error Message"] != "undefined") {
+        let errMsg = error["Error Message"];
+        // if this is an invlid request
+        if (errMsg.indexOf("Invalid") == 0) {
+          // invalid request
+          throw new HttpErrors.BadRequest(
+            `Invalid request error received from AlphaAvantage, is the symbol correct?`
+          );
+        }
+        else {
+          throw new HttpErrors.BadGateway(
+            `Error from AlphaAvantage:
+
+${errMsg}
+`
+          );
+        }
       }
       // get body
       const body: T = response.body;
